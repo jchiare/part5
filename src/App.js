@@ -55,7 +55,7 @@ function App() {
     setToken(null)
     setUser(null)
     setSuccessMessage("Successfully logged out")
-    setTimeout(() => setErrorMessage(null),5000)
+    setTimeout(() => setSuccessMessage(null),5000)
   }
 
   const handleLogin = async event => {
@@ -73,7 +73,7 @@ function App() {
       ) 
       setToken(user.token)
       setSuccessMessage(`User ${user.name} successfully logged in`)
-      setTimeout(() => setErrorMessage(null),5000)
+      setTimeout(() => setSuccessMessage(null),5000)
     } catch (error){  
       setErrorMessage(`Error: ${error.response.data.error}`)
       setTimeout(() => setErrorMessage(null),5000)
@@ -94,7 +94,7 @@ function App() {
       setAuthor('')
       setUrl('')
       setSuccessMessage(`Successfully added ${blog.title}`)
-      setTimeout(() => setErrorMessage(null),5000)
+      setTimeout(() => setSuccessMessage(null),5000)
     } catch (error){
       setErrorMessage(JSON.stringify(error))
       setTimeout(() => setErrorMessage(null),5000)

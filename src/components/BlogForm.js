@@ -1,9 +1,9 @@
 import React from 'react'
 
-const BlogForm = ({ 
-  createBlog, 
-  setTitle, 
-  setAuthor, 
+const BlogForm = ({
+  createBlog,
+  setTitle,
+  setAuthor,
   setUrl,
   title,
   author,
@@ -14,8 +14,8 @@ const BlogForm = ({
       <h3>Create New Blog</h3>
       <form onSubmit={createBlog}>
         <div>
-          Title: 
-            <input
+          Title:
+          <input
             type="text"
             value={title}
             name="title"
@@ -24,8 +24,8 @@ const BlogForm = ({
           />
         </div>
         <div>
-          Author: 
-            <input
+          Author:
+          <input
             type="text"
             value={author}
             name="author"
@@ -33,8 +33,8 @@ const BlogForm = ({
           />
         </div>
         <div>
-          URL: 
-            <input
+          URL:
+          <input
             type="text"
             value={url}
             name="url"

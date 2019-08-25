@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import loginService from './services/login'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import RenderBlogs from './components/Blog'
 import BlogForm from './components/BlogForm'
+import Toggleable from './components/Toggleable'
 import './App.css'
 
-const ErrorNotification = ({ message }) => {  
+const ErrorNotification = ({ message }) => {
   if (!message){
     return null
   }
@@ -17,7 +18,7 @@ const ErrorNotification = ({ message }) => {
   )
 }
 
-const SuccessNotification = ({ message }) => {  
+const SuccessNotification = ({ message }) => {
   if (!message){
     return null
   }
@@ -28,7 +29,7 @@ const SuccessNotification = ({ message }) => {
   )
 }
 
-const User = ({ user, handleLogout}) => {
+const User = ({ user, handleLogout }) => {
   return (
     <div>
       <h3>Blogs</h3>
@@ -38,23 +39,29 @@ const User = ({ user, handleLogout}) => {
   )
 }
 
+const order = (a, b) => {
+  return a.likes > b.likes ? -1 : (a.likes > b.likes ? 1 : 0)
+}
+
 function App() {
   const [errorMessage, setErrorMessage] = useState(null)
   const [successMessage, setSuccessMessage] = useState(null)
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(null)
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  const handleLogout = () => {    
+  const blogFormRef = React.createRef()
+
+  const handleLogout = () => {
     window.localStorage.removeItem('blogUser')
     setToken(null)
     setUser(null)
-    setSuccessMessage("Successfully logged out")
+    setSuccessMessage('Successfully logged out')
     setTimeout(() => setSuccessMessage(null),5000)
   }
 
@@ -70,11 +77,11 @@ function App() {
       setPassword('')
       window.localStorage.setItem(
         'blogUser', JSON.stringify(user)
-      ) 
+      )
       setToken(user.token)
       setSuccessMessage(`User ${user.name} successfully logged in`)
       setTimeout(() => setSuccessMessage(null),5000)
-    } catch (error){  
+    } catch (error){
       setErrorMessage(`Error: ${error.response.data.error}`)
       setTimeout(() => setErrorMessage(null),5000)
     }
@@ -82,6 +89,7 @@ function App() {
 
   const createBlog = async event => {
     event.preventDefault()
+    blogFormRef.current.toggleVisibility()
     try {
       const blog = await blogService.createBlog({
         title,
@@ -104,7 +112,7 @@ function App() {
   useEffect(() => {
     blogService
       .getAll()
-      .then(blogs => setBlogs([...blogs]))
+      .then(blogs => setBlogs([...blogs].sort((a,b) => a - b)))
       .catch(error => console.log(error))
   },[user])
 
@@ -122,7 +130,7 @@ function App() {
       <ErrorNotification message={errorMessage}/>
       <SuccessNotification message={successMessage} />
       {user === null ?
-        <LoginForm 
+        <LoginForm
           handleLogin={handleLogin}
           username={username}
           setUsername={setUsername}
@@ -130,24 +138,34 @@ function App() {
           setPassword={setPassword}
         />:
         <div>
-          <User 
+          <User
             user={user}
             handleLogout={handleLogout}
           />
-          <BlogForm 
-            setTitle={setTitle} 
-            setAuthor={setAuthor}
-            setUrl={setUrl}
-            title={title}
-            author={author}
-            url={url}
-            createBlog={createBlog}
+          <Toggleable
+            buttonLabel="New Blog"
+            ref={blogFormRef}
+          >
+            <BlogForm
+              setTitle={setTitle}
+              setAuthor={setAuthor}
+              setUrl={setUrl}
+              title={title}
+              author={author}
+              url={url}
+              createBlog={createBlog}
+            />
+          </Toggleable>
+          {blogs.sort(order).map(blog => <RenderBlogs
+            key={blog.id}
+            blog={blog}
+            token={token}
           />
-          <RenderBlogs blogs={blogs}/>
+          )}
         </div>
       }
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

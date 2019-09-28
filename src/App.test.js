@@ -39,6 +39,6 @@ describe('<App />', () => {
     await waitForElement(
       () => component.container.querySelector('.defaultInfo')
     )
-    component.debug()
+    expect(component.container).toHaveTextContent('likes')
   })
 })

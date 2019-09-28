@@ -39,8 +39,8 @@ const RenderBlogs = ({ blog, token }) => {
   }
 
   const deleteBlog = () => {
-    const cont = window.confirm(`Remove ${title} by ${author}`)
-    if(cont){
+    const confirm = window.confirm(`Remove ${title} by ${author}`)
+    if(confirm){
       blogService
         .deleteBlog({
           id,

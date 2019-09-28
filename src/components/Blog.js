@@ -6,6 +6,7 @@ const RenderBlogs = ({ blog, token }) => {
   const [likesValue, setLikes] = useState(blog.likes)
 
   const { title, author, url, user, id } = blog
+
   const userMatches = user && (user.username === JSON.parse(window.localStorage.getItem('blogUser')).username)
 
   const visibilityStyle = {

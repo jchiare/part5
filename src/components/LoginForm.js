@@ -1,34 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useField } from '../hooks/index'
 
 const LoginForm = ({
   handleLogin,
   username,
-  setUsername,
   password,
-  setPassword
 }) => {
+
+  const { reset:userReset, ...userProps } = username
+  const { reset:passReset, ...passwordProps } = password
+
   return (
     <form onSubmit={handleLogin}>
       <h3>Login to application</h3>
       <div>
       username
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
+        <input { ... userProps} />
       </div>
       <div>
       password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
+        <input { ...passwordProps} />
       </div>
       <button type="submit">login</button>
     </form>
@@ -36,10 +27,8 @@ const LoginForm = ({
 
 LoginForm.propTypes = {
   handleLogin: PropTypes.func.isRequired,
-  setUsername: PropTypes.func.isRequired,
-  setPassword: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired
+  username: PropTypes.object.isRequired,
+  password: PropTypes.object.isRequired
 }
 
 export default LoginForm

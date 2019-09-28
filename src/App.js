@@ -5,6 +5,7 @@ import LoginForm from './components/LoginForm'
 import RenderBlogs from './components/Blog'
 import BlogForm from './components/BlogForm'
 import Toggleable from './components/Toggleable'
+import { useField } from './hooks/index'
 import './App.css'
 
 const ErrorNotification = ({ message }) => {
@@ -49,11 +50,14 @@ function App() {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+
+  const loginUsername = useField('text')
+  const loginPassword = useField('password')
+
+  const blogTitle = useField('text')
+  const blogAuthor = useField('text')
+  const blogUrl = useField('text')
+
 
   const blogFormRef = React.createRef()
 
@@ -68,17 +72,19 @@ function App() {
   const handleLogin = async event => {
     event.preventDefault()
     try {
+      const username = loginUsername.value
+      const password = loginPassword.value
+
       const user = await loginService.login({
         username,
         password
       })
-      setUser(user)
-      setUsername('')
-      setPassword('')
       window.localStorage.setItem(
         'blogUser', JSON.stringify(user)
       )
+      setUser(user)
       setToken(user.token)
+
       setSuccessMessage(`User ${user.name} successfully logged in`)
       setTimeout(() => setSuccessMessage(null),5000)
     } catch (error){
@@ -91,6 +97,10 @@ function App() {
     event.preventDefault()
     blogFormRef.current.toggleVisibility()
     try {
+      const title = blogTitle.value
+      const author = blogAuthor.value
+      const url = blogUrl.value
+
       const blog = await blogService.createBlog({
         title,
         author,
@@ -98,9 +108,9 @@ function App() {
         token
       })
       setBlogs([...blogs].concat(blog))
-      setTitle('')
-      setAuthor('')
-      setUrl('')
+      blogTitle.reset()
+      blogAuthor.reset()
+      blogUrl.reset()
       setSuccessMessage(`Successfully added ${blog.title}`)
       setTimeout(() => setSuccessMessage(null),5000)
     } catch (error){
@@ -132,10 +142,8 @@ function App() {
       {user === null ?
         <LoginForm
           handleLogin={handleLogin}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
+          username={loginUsername}
+          password={loginPassword}
         />:
         <div>
           <User
@@ -147,12 +155,9 @@ function App() {
             ref={blogFormRef}
           >
             <BlogForm
-              setTitle={setTitle}
-              setAuthor={setAuthor}
-              setUrl={setUrl}
-              title={title}
-              author={author}
-              url={url}
+              title={blogTitle}
+              author={blogAuthor}
+              url={blogUrl}
               createBlog={createBlog}
             />
           </Toggleable>

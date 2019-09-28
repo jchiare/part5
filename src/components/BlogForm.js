@@ -2,13 +2,15 @@ import React from 'react'
 
 const BlogForm = ({
   createBlog,
-  setTitle,
-  setAuthor,
-  setUrl,
   title,
   author,
   url
 }) => {
+
+  const { reset:titleReset, ...titleProps } = title
+  const { reset:authorReset, ...authorProps } = author
+  const { reset:urlReset, ...urlProps } = url
+
   return (
     <div>
       <h3>Create New Blog</h3>
@@ -16,30 +18,19 @@ const BlogForm = ({
         <div>
           Title:
           <input
-            type="text"
-            value={title}
-            name="title"
-            onChange={({ target }) => setTitle(target.value)}
-            required
+            { ... titleProps }
           />
         </div>
         <div>
           Author:
           <input
-            type="text"
-            value={author}
-            name="author"
-            onChange={({ target }) => setAuthor(target.value)}
+            { ... authorProps }
           />
         </div>
         <div>
           URL:
           <input
-            type="text"
-            value={url}
-            name="url"
-            onChange={({ target }) => setUrl(target.value)}
-            required
+            { ... urlProps }
           />
         </div>
         <button type="submit">Create blog</button>

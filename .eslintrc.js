@@ -48,7 +48,11 @@ module.exports = {
       "no-console": 0,
       "react/prop-types": 0,
       "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn"
+      "react-hooks/exhaustive-deps": "warn",
+      "no-unused-vars": [
+          "error", 
+          { "ignoreRestSiblings": true }
+        ]
   },
   "settings": {
     "react": {

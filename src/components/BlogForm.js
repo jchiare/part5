@@ -1,11 +1,21 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-const BlogForm = ({
+import { addBlog } from '../reducers/blogReducer'
+
+const BlogFormComponent = ({
   createBlog,
   title,
   author,
-  url
+  url,
+  addBlog
 }) => {
+
+  /*
+  const onBlogSubmitted = async event => {
+    event.preventDefault()
+    const data = event.target
+  }*/
 
   const { reset:titleReset, ...titleProps } = title
   const { reset:authorReset, ...authorProps } = author
@@ -39,4 +49,8 @@ const BlogForm = ({
   )
 }
 
-export default BlogForm
+const mapDispatchToProps = {
+  addBlog
+}
+
+export const BlogForm = connect(null,mapDispatchToProps)(BlogFormComponent)

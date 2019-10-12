@@ -1,170 +1,50 @@
-import React, { useState, useEffect } from 'react'
-import loginService from './services/login'
-import blogService from './services/blogs'
-import LoginForm from './components/LoginForm'
+import React, { useEffect } from 'react'
+import { connect } from 'react-redux'
+
+import { LoginForm } from './components/LoginForm'
 import RenderBlogs from './components/Blog'
-import { BlogForm } from './components/BlogForm'
+import BlogForm from './components/BlogForm'
 import Toggleable from './components/Toggleable'
-import { useField } from './hooks/index'
-import './App.css'
+import Notification from './components/Notification'
+import User from './components/User'
 
-const ErrorNotification = ({ message }) => {
-  if (!message){
-    return null
-  }
-  return (
-    <div className="error">
-      <p>{message}</p>
-    </div>
-  )
-}
-
-const SuccessNotification = ({ message }) => {
-  if (!message){
-    return null
-  }
-  return (
-    <div className="success">
-      <p>{message}</p>
-    </div>
-  )
-}
-
-const User = ({ user, handleLogout }) => {
-  return (
-    <div>
-      <h3>Blogs</h3>
-      {user.name} logged in
-      <button onClick={handleLogout}>logout</button>
-    </div>
-  )
-}
+import { initToken } from './reducers/tokenReducer'
+import { initBlogs } from './reducers/blogReducer'
 
 const order = (a, b) => {
   return a.likes > b.likes ? -1 : (a.likes > b.likes ? 1 : 0)
 }
 
-function App() {
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [successMessage, setSuccessMessage] = useState(null)
-  const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState(null)
-  const [token, setToken] = useState(null)
-
-  const loginUsername = useField('text')
-  const loginPassword = useField('password')
-
-  const blogTitle = useField('text')
-  const blogAuthor = useField('text')
-  const blogUrl = useField('text')
-
+const App = ({ initToken, initBlogs, blogs, user }) => {
 
   const blogFormRef = React.createRef()
 
-  const handleLogout = () => {
-    window.localStorage.removeItem('blogUser')
-    setToken(null)
-    setUser(null)
-    setSuccessMessage('Successfully logged out')
-    setTimeout(() => setSuccessMessage(null),5000)
-  }
-
-  const handleLogin = async event => {
-    event.preventDefault()
-    try {
-      const username = loginUsername.value
-      const password = loginPassword.value
-
-      const user = await loginService.login({
-        username,
-        password
-      })
-      window.localStorage.setItem(
-        'blogUser', JSON.stringify(user)
-      )
-      setUser(user)
-      setToken(user.token)
-
-      setSuccessMessage(`User ${user.name} successfully logged in`)
-      setTimeout(() => setSuccessMessage(null),5000)
-    } catch (error){
-      setErrorMessage(`Error: ${error.response.data.error}`)
-      setTimeout(() => setErrorMessage(null),5000)
-    }
-  }
-
-  const createBlog = async event => {
-    event.preventDefault()
-    blogFormRef.current.toggleVisibility()
-    try {
-      const title = blogTitle.value
-      const author = blogAuthor.value
-      const url = blogUrl.value
-
-      const blog = await blogService.createBlog({
-        title,
-        author,
-        url,
-        token
-      })
-      setBlogs([...blogs].concat(blog))
-      blogTitle.reset()
-      blogAuthor.reset()
-      blogUrl.reset()
-      setSuccessMessage(`Successfully added ${blog.title}`)
-      setTimeout(() => setSuccessMessage(null),5000)
-    } catch (error){
-      setErrorMessage(JSON.stringify(error))
-      setTimeout(() => setErrorMessage(null),5000)
-    }
-  }
+  useEffect(() => {
+    initToken()
+  },[initToken])
 
   useEffect(() => {
-    blogService
-      .getAll()
-      .then(blogs => setBlogs([...blogs].sort((a,b) => a - b)))
-      .catch(error => console.log(error))
-  },[user])
-
-  useEffect(() => {
-    const loggedInUser = window.localStorage.getItem('blogUser')
-    if (loggedInUser){
-      const user = JSON.parse(loggedInUser)
-      setUser(user)
-      setToken(user.token)
-    }
-  },[])
+    initBlogs()
+  },[initBlogs])
 
   return (
     <div className="App">
-      <ErrorNotification message={errorMessage}/>
-      <SuccessNotification message={successMessage} />
+      <Notification />
       {user === null ?
-        <LoginForm
-          handleLogin={handleLogin}
-          username={loginUsername}
-          password={loginPassword}
-        />:
-        <div>
+        <LoginForm />
+        : <div>
           <User
             user={user}
-            handleLogout={handleLogout}
           />
           <Toggleable
             buttonLabel="New Blog"
             ref={blogFormRef}
           >
-            <BlogForm
-              title={blogTitle}
-              author={blogAuthor}
-              url={blogUrl}
-              createBlog={createBlog}
-            />
+            <BlogForm />
           </Toggleable>
-          {blogs.sort(order).map(blog => <RenderBlogs
+          {blogs && blogs.sort(order).map(blog => <RenderBlogs
             key={blog.id}
             blog={blog}
-            token={token}
           />
           )}
         </div>
@@ -173,4 +53,23 @@ function App() {
   )
 }
 
-export default App
+const mapStateToProps = state => {
+  const user = state.token && state.token.user
+  // Wait for blogs to load
+  if (typeof state.blogs === 'function'){
+    return {
+      blogs: null,
+      notification: state.notification,
+      user
+    }
+  } else {
+    return {
+      blogs: state.blogs,
+      notification: state.notification,
+      user
+    }
+  }
+
+}
+
+export default connect(mapStateToProps, { initToken, initBlogs })(App)

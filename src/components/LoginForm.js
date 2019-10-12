@@ -1,34 +1,46 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-const LoginForm = ({
-  handleLogin,
-  username,
-  password,
-}) => {
+import { addToken } from '../reducers/tokenReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
-  const { reset:userReset, ...userProps } = username
-  const { reset:passReset, ...passwordProps } = password
+const LoginFormComponent = ({ addToken, setNotification }) => {
+
+  const onLoginAttempt = async event => {
+    event.preventDefault()
+    const { username, password } = event.target
+    const formattedObject = {
+      username:username.value,
+      password:password.value
+    }
+    try {
+      await addToken(formattedObject)
+      username.value = ''
+      password.value = ''
+    } catch (e) {
+      console.error(e)
+      setNotification('Invalid email or password','red')
+    }
+  }
 
   return (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={onLoginAttempt}>
       <h3>Login to application</h3>
       <div>
       username
-        <input { ... userProps} />
+        <input name="username" />
       </div>
       <div>
       password
-        <input { ...passwordProps} />
+        <input name="password" type="password"/>
       </div>
       <button type="submit">login</button>
     </form>
   )}
 
-LoginForm.propTypes = {
-  handleLogin: PropTypes.func.isRequired,
-  username: PropTypes.object.isRequired,
-  password: PropTypes.object.isRequired
+const mapDispatchToProps = {
+  addToken,
+  setNotification
 }
 
-export default LoginForm
+export const LoginForm = connect(null,mapDispatchToProps)(LoginFormComponent)

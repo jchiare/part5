@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import blogService from '.././services/blogs'
+import { connect } from 'react-redux'
 
 const RenderBlogs = ({ blog, token }) => {
   const [visibility, setVisibility] = useState(false)
@@ -70,4 +71,10 @@ const RenderBlogs = ({ blog, token }) => {
   )
 }
 
-export default RenderBlogs
+const mapStateToProps = state => {
+  return {
+    token: state.token.token
+  }
+}
+
+export default connect(mapStateToProps, null)(RenderBlogs)

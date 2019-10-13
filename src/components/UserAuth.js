@@ -15,9 +15,7 @@ const UserAuth = ({ user, removeToken }) => {
 
   return (
     <div>
-      <h3>Blogs</h3>
       {user} logged in
-      <br />
       <button onClick={handleLogout}>logout</button>
     </div>
   )

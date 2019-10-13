@@ -47,6 +47,11 @@ const updateBlog = async ({
   return response.data
 }
 
+const addComment = async({ comment, id }) => {
+  const response = await axios.post(`${baseUrl}/${id}/comments`, comment)
+  return response.data
+}
+
 const deleteBlog = async({ id, token }) => {
   const config = {
     headers: {
@@ -61,5 +66,6 @@ export default {
   getAll,
   createBlog,
   updateBlog,
-  deleteBlog
+  deleteBlog,
+  addComment
 }

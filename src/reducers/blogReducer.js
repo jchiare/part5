@@ -39,6 +39,25 @@ export const addLike = blog => {
   }
 }
 
+export const addComment = (comment,id) => {
+  return async dispatch => {
+    try {
+      await blogService.addComment({
+        comment,
+        id
+      })
+      dispatch({
+        type:'ADD_COMMENT',
+        id,
+        comment
+      })
+    }
+    catch (e) {
+      console.error(e)
+    }
+  }
+}
+
 export const blogReducer = (state = initBlogs, action) => {
   switch(action.type){
   case 'ADD_BLOG':
@@ -50,6 +69,16 @@ export const blogReducer = (state = initBlogs, action) => {
     const changedBlog = {
       ...blogToChange,
       likes:blogToChange.likes + 1
+    }
+    return state.map(blog =>
+      blog.id !== action.id ? blog : changedBlog
+    )
+  }
+  case 'ADD_COMMENT': {
+    const blogToChange = state.find(a => a.id === action.id)
+    const changedBlog = {
+      ...blogToChange,
+      comments: blogToChange.comments.concat(action.comment.comment)
     }
     return state.map(blog =>
       blog.id !== action.id ? blog : changedBlog

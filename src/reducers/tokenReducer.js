@@ -45,7 +45,7 @@ export const tokenReducer = (state = null, action) => {
     return action.data
   case 'REMOVE_TOKEN':
     window.localStorage.removeItem('blogUser')
-    return null
+    return action
   default:
     return state
   }

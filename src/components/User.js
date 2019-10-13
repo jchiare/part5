@@ -1,13 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux'
 
-import { removeToken } from '../reducers/tokenReducer'
-
-const User = ({ user, removeToken }) => {
-
-  const handleLogout = () => {
-    removeToken()
-  }
+const User = ({ user }) => {
 
   if (!user){
     return null
@@ -15,18 +8,15 @@ const User = ({ user, removeToken }) => {
 
   return (
     <div>
-      <h3>Blogs</h3>
-      {user} logged in
-      <button onClick={handleLogout}>logout</button>
+      <h2>{user.name}</h2>
+      <ul>
+        {user.blogs.length > 0 ?
+          user.blogs.map(blog => {return <li key={blog.id}>{blog.title}</li>})
+          : <p>No blogs associated with user</p>
+        }
+      </ul>
     </div>
   )
 }
 
-const mapStateToProps = state => {
-  const user = state.token && state.token.username
-  return {
-    user
-  }
-}
-
-export default connect(mapStateToProps,{ removeToken })(User)
+export { User }

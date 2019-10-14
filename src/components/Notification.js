@@ -8,11 +8,23 @@ const Notification = (props) => {
     return null
   }
 
-  return (
-    <Message>
-      {props.notification.content}
-    </Message>
-  )
+  const { color } = props.notification
+
+  if (color === 'red'){
+    return (
+      <Message negative>
+        <Message.Header>{props.notification.content}</Message.Header>
+      </Message>
+    )
+  } else if (color === 'green'){
+    return (
+      <Message positive>
+        <Message.Header>{props.notification.content}</Message.Header>
+      </Message>
+    )
+  }
+
+
 }
 
 const mapStateToProps = (state) => ({

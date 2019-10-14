@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { Button, Form } from 'semantic-ui-react'
+
 import { addToken } from '../reducers/tokenReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
@@ -24,18 +26,22 @@ const LoginFormComponent = ({ addToken, setNotification }) => {
   }
 
   return (
-    <form onSubmit={onLoginAttempt}>
+    <Form onSubmit={onLoginAttempt}>
       <h3>Login to application</h3>
-      <div>
+      <Form.Field>
+        <div>
       username
-        <input name="username" />
-      </div>
-      <div>
+          <input name="username" />
+        </div>
+      </Form.Field>
+      <Form.Field>
+        <div>
       password
-        <input name="password" type="password"/>
-      </div>
-      <button type="submit">login</button>
-    </form>
+          <input name="password" type="password"/>
+        </div>
+      </Form.Field>
+      <Button type="submit">login</Button>
+    </Form>
   )}
 
 const mapDispatchToProps = {

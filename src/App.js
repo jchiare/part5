@@ -10,6 +10,8 @@ import Notification from './components/Notification'
 import Users from './components/Users'
 import { User } from './components/User'
 import Blog from './components/BlogObj'
+import { Container, Table, Menu, Button } from 'semantic-ui-react'
+
 
 import { initToken } from './reducers/tokenReducer'
 import { initBlogs } from './reducers/blogReducer'
@@ -20,21 +22,20 @@ const order = (a, b) => {
   return a.likes > b.likes ? -1 : (a.likes > b.likes ? 1 : 0)
 }
 
-const headerStyle = {
-  backgroundColor:'lightgrey',
-  display:'inline-block',
-  padding:'0.3rem'
-}
-
 const Header = ({ user, removeToken }) => {
   return (
-    <div style={headerStyle}>
-      <Link to={'/'}>Blogs </Link>
-      <Link to={'/users'}>Users</Link>
-      <span>{user} logged in </span>
-      <button onClick={() => removeToken()}>logout</button>
-
-    </div>
+    <Menu inverted>
+      < Menu.Item link>
+        <Link to={'/'}>Blogs </Link>
+      </Menu.Item>
+      <Menu.Item link>
+        <Link to={'/users'}>Users</Link>
+      </Menu.Item>
+      <Menu.Item>
+        <span>{user} logged in </span>
+      </Menu.Item>
+      <Button onClick={() => removeToken()}>logout</Button>
+    </Menu>
   )
 }
 
@@ -48,11 +49,22 @@ const Blogs = ({ blogs }) => {
       >
         <BlogForm />
       </Toggleable>
-      {blogs && blogs.sort(order).map(blog => <RenderBlogs
-        key={blog.id}
-        blog={blog}
-      />
-      )}
+      <Table striped celled>
+        <Table.Body>
+          {blogs && blogs.sort(order).map(blog =>
+            <Table.Row key={blog.id}>
+              <Table.Cell>
+                <RenderBlogs
+                  key={blog.id}
+                  blog={blog}
+                />
+              </Table.Cell>
+            </Table.Row>
+          )}
+        </Table.Body>
+      </Table>
+
+
     </div>)
 }
 
@@ -74,26 +86,28 @@ const App = ({ initToken, initBlogs, initUsers, removeToken, blogs, token, users
 
   return (
     <Router>
-      <div className="App">
-        <Notification />
-        {token && token.name ?
-          <div>
-            <Header removeToken={removeToken}/>
-            <h3>Blogs</h3>
-            <Route exact path="/" render={() =>
-              <Blogs blogs={blogs} />
-            } />
-            <Route exact path="/users" render={() => <Users />}/>
-            <Route exact path="/users/:id" render={({ match }) =>
-              <User user={propById(match.params.id,users)} />}
-            />
-            <Route exact path="/blogs/:id" render={({ match }) =>
-              <Blog blog={propById(match.params.id,blogs)} />}
-            />
-          </div>
-          : <LoginForm />
-        }
-      </div>
+      <Container>
+        <div className="App">
+          <Notification />
+          {token && token.name ?
+            <div>
+              <Header removeToken={removeToken} user={token.name}/>
+              <h3>Blogs</h3>
+              <Route exact path="/" render={() =>
+                <Blogs blogs={blogs} />
+              } />
+              <Route exact path="/users" render={() => <Users />}/>
+              <Route exact path="/users/:id" render={({ match }) =>
+                <User user={propById(match.params.id,users)} />}
+              />
+              <Route exact path="/blogs/:id" render={({ match }) =>
+                <Blog blog={propById(match.params.id,blogs)} />}
+              />
+            </div>
+            : <LoginForm />
+          }
+        </div>
+      </Container>
     </Router>
   )
 }

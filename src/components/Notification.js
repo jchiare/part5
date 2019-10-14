@@ -1,25 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Message } from 'semantic-ui-react'
 
 const Notification = (props) => {
-  const style = {
-    color: props.notification.color,
-    background: 'lightgrey',
-    fontSize: '20px',
-    borderStyle: 'solid',
-    borderRadius: '5px',
-    padding: '10px',
-    marginBottom: '10px'
-  }
 
   if (!props.notification) {
     return null
   }
 
   return (
-    <div style={style}>
+    <Message>
       {props.notification.content}
-    </div>
+    </Message>
   )
 }
 

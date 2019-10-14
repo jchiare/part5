@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { addLike, addComment } from '../reducers/blogReducer'
+import { Button, Icon, Input } from 'semantic-ui-react'
 
 const Blog = ({ blog, addLike, addComment }) => {
 
@@ -18,12 +19,12 @@ const Blog = ({ blog, addLike, addComment }) => {
     <div>
       <h2>{blog.title} {blog.author}</h2>
       <a href={`http://${blog.url}`}>{blog.url}</a>
-      <p>{blog.likes} likes <button onClick={() => addLike(blog)}>like</button></p>
+      <p>{blog.likes} likes <Button color="red" icon onClick={() => addLike(blog)}><Icon name="like"/></Button></p>
       <p>added by {blog.user.name}</p>
       <h4>Comments</h4>
       <form onSubmit={handleSubmit}>
-        <input name="comment" type="text" />
-        <button> Add Comments</button>
+        <Input name="comment" type="text" />
+        <Button secondary> Add Comments</Button>
       </form>
       <ul>
         {blog.comments && blog.comments.map((comment,index) => <li key={index}> {comment} </li>)}

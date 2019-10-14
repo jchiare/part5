@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { Form, Button, Input } from 'semantic-ui-react'
+
 import { addBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
@@ -34,27 +36,33 @@ const BlogFormComponent = ({
   return (
     <div>
       <h3>Create New Blog</h3>
-      <form onSubmit={onBlogSubmitted}>
-        <div>
+      <Form onSubmit={onBlogSubmitted}>
+        <Form.Field>
+          <div>
           Title:
-          <input
-            name="title"
-          />
-        </div>
-        <div>
+            <Input
+              name="title"
+            />
+          </div>
+        </Form.Field>
+        <Form.Field>
+          <div>
           Author:
-          <input
-            name="author"
-          />
-        </div>
-        <div>
+            <Input
+              name="author"
+            />
+          </div>
+        </Form.Field>
+        <Form.Field>
+          <div>
           URL:
-          <input
-            name="url"
-          />
-        </div>
-        <button type="submit">Create blog</button>
-      </form>
+            <Input
+              name="url"
+            />
+          </div>
+        </Form.Field>
+        <Button primary type="submit">Create blog</Button>
+      </Form>
     </div>
   )
 }

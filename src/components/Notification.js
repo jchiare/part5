@@ -2,35 +2,31 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Message } from 'semantic-ui-react'
 
-const Notification = (props) => {
-
-  if (!props.notification) {
+const Notification = ({ notification }) => {
+  if (!notification) {
     return null
   }
 
-  const { color } = props.notification
+  const { color } = notification
 
-  if (color === 'red'){
+  if (color === 'red') {
     return (
       <Message negative>
-        <Message.Header>{props.notification.content}</Message.Header>
-      </Message>
-    )
-  } else if (color === 'green'){
-    return (
-      <Message positive>
-        <Message.Header>{props.notification.content}</Message.Header>
+        <Message.Header>{notification.content}</Message.Header>
       </Message>
     )
   }
-
-
+  return (
+    <Message positive>
+      <Message.Header>{notification.content}</Message.Header>
+    </Message>
+  )
 }
 
 const mapStateToProps = (state) => ({
-  notification: state.notification
+  notification: state.notification,
 })
 
 export default connect(
-  mapStateToProps
+  mapStateToProps,
 )(Notification)

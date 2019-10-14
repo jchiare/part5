@@ -9,28 +9,26 @@ import { setNotification } from '../reducers/notificationReducer'
 const BlogFormComponent = ({
   addBlog,
   token,
-  setNotification
+  setNotification,
 }) => {
-
-  const onBlogSubmitted = async event => {
+  const onBlogSubmitted = async (event) => {
     event.preventDefault()
     const { title, author, url } = event.target
     const formattedObject = {
-      title:title.value,
-      author:author.value,
-      url:url.value,
-      token:token.token
+      title: title.value,
+      author: author.value,
+      url: url.value,
+      token: token.token,
     }
-    try{
+    try {
       await addBlog(formattedObject)
-      setNotification(`Added ${title.value} by ${author.value}`,'green')
+      setNotification(`Added ${title.value} by ${author.value}`, 'green')
       title.value = ''
       author.value = ''
       url.value = ''
-    } catch(e){
-      setNotification(`Added ${title.value} by ${author.value}`,'red')
+    } catch (e) {
+      setNotification(`Added ${title.value} by ${author.value}`, 'red')
     }
-
   }
 
   return (
@@ -67,15 +65,13 @@ const BlogFormComponent = ({
   )
 }
 
-const mapStateToProps = state => {
-  return {
-    token: state.token
-  }
-}
+const mapStateToProps = (state) => ({
+  token: state.token,
+})
 
 const mapDispatchToProps = {
   addBlog,
-  setNotification
+  setNotification,
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(BlogFormComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(BlogFormComponent)

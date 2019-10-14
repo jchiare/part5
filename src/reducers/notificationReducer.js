@@ -2,33 +2,30 @@ const reducer = (state = '', action) => {
   if (action.type === 'SET_NOTIFICATION') {
     return {
       content: action.content,
-      color: action.color
+      color: action.color,
     }
-  } else if (action.type === 'CLEAR_NOTIFICATION') {
+  } if (action.type === 'CLEAR_NOTIFICATION') {
     return ''
   }
   return state
 }
 
-export const setNotification = (content,color) => {
-  return (dispatch) => {
+export const setNotification = (content, color) => (dispatch) => {
+  dispatch({
+    type: 'SET_NOTIFICATION',
+    content,
+    color,
+  })
+  setTimeout(() => {
     dispatch({
-      type: 'SET_NOTIFICATION',
-      content,
-      color
+      type: 'CLEAR_NOTIFICATION',
     })
-    setTimeout(() => {
-      dispatch({
-        type: 'CLEAR_NOTIFICATION',
-      })
-    }, 5000)
-  }
-
+  }, 5000)
 }
 
 export const clearNotification = () => (
   {
-    type: 'CLEAR_NOTIFICATION'
+    type: 'CLEAR_NOTIFICATION',
   }
 )
 

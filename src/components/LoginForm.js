@@ -7,13 +7,12 @@ import { addToken } from '../reducers/tokenReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
 const LoginFormComponent = ({ addToken, setNotification }) => {
-
-  const onLoginAttempt = async event => {
+  const onLoginAttempt = async (event) => {
     event.preventDefault()
     const { username, password } = event.target
     const formattedObject = {
-      username:username.value,
-      password:password.value
+      username: username.value,
+      password: password.value,
     }
     try {
       await addToken(formattedObject)
@@ -21,7 +20,7 @@ const LoginFormComponent = ({ addToken, setNotification }) => {
       password.value = ''
     } catch (e) {
       console.error(e)
-      setNotification('Invalid email or password','red')
+      setNotification('Invalid email or password', 'red')
     }
   }
 
@@ -37,16 +36,17 @@ const LoginFormComponent = ({ addToken, setNotification }) => {
       <Form.Field>
         <div>
       password
-          <input name="password" type="password"/>
+          <input name="password" type="password" />
         </div>
       </Form.Field>
       <Button type="submit">login</Button>
     </Form>
-  )}
+  )
+}
 
 const mapDispatchToProps = {
   addToken,
-  setNotification
+  setNotification,
 }
 
-export const LoginForm = connect(null,mapDispatchToProps)(LoginFormComponent)
+export const LoginForm = connect(null, mapDispatchToProps)(LoginFormComponent)

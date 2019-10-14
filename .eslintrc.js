@@ -6,7 +6,9 @@ module.exports = {
   },
   "extends": [ 
       "eslint:recommended",
-      "plugin:react/recommended"
+      "plugin:react/recommended",
+      "airbnb", 
+      "airbnb/hooks"
   ],
   "parserOptions": {
       "ecmaFeatures": {
@@ -52,7 +54,12 @@ module.exports = {
       "no-unused-vars": [
           "error", 
           { "ignoreRestSiblings": true }
-        ]
+        ],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "no-shadow": "off",
+    "no-nested-ternary": "off",
+    "import/prefer-default-export":"warn",
+    "no-param-reassign":"warn"
   },
   "settings": {
     "react": {

@@ -4,6 +4,7 @@ import { Button, Icon, Input } from 'semantic-ui-react'
 import { addLike, addComment } from '../reducers/blogReducer'
 
 const Blog = ({ blog, addLike, addComment }) => {
+  console.log('hi')
   if (!blog) {
     return null
   }

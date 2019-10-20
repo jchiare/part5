@@ -36,5 +36,26 @@ Cypress.Commands.add('login', () => {
   .then((resp) => {
     window.localStorage.setItem('blogUser',  JSON.stringify(resp.body))
   })
+})
 
+Cypress.Commands.add('createUser', () => { 
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:3000/api/users',
+    body: {
+        "username": "testuser",
+        "password":"12345678",
+        "name": "Test User - test",
+    }
+  })
+  .then((resp) => {
+    window.localStorage.setItem('blogUser',  JSON.stringify(resp.body))
+  })
+})
+
+Cypress.Commands.add('clearDB', () => { 
+  cy.request({
+    method: 'POST',
+    url: 'http://localhost:3000/api/testing/reset'
+  })
 })

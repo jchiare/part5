@@ -1,10 +1,11 @@
 describe('Add new blog ', function() {
 
-  beforeEach(function() { 
+  beforeEach(function() {
+    cy.clearDB()
+    cy.createUser() 
     cy.login()
     cy.visit('http://localhost:3000')
     cy.get('[data-cy="new_blog"]').as('newBlog')
-    cy.request('POST', 'http://localhost:3000/api/testing/reset')
   })
   
   it('open and input blog information',function() {

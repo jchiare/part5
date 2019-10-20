@@ -35,7 +35,7 @@ const BlogFormComponent = ({
     <div>
       <h3>Create New Blog</h3>
       <Form onSubmit={onBlogSubmitted}>
-        <Form.Field >
+        <Form.Field>
           <div>
           Title:
             <Input

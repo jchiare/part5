@@ -8,11 +8,11 @@ afterEach(cleanup)
 test('Blog post displays correct information', () => {
   const blog = {
     title: 'The blog title',
-    author: 'Frank Smith'
+    author: 'Frank Smith',
   }
 
   const component = render(
-    <RenderBlogs blog={blog} />
+    <RenderBlogs blog={blog} />,
   )
 
   const defaultText = component.container.querySelector('.defaultInfo')
@@ -24,5 +24,4 @@ test('Blog post displays correct information', () => {
   fireEvent.click(defaultText)
 
   expect(extraText).toHaveStyle('')
-
 })

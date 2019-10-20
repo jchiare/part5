@@ -38,7 +38,7 @@ logged in
         {' '}
       </span>
     </Menu.Item>
-    <Button onClick={() => removeToken()}>logout</Button>
+    <Button data-cy="logout" onClick={() => removeToken()}>logout</Button>
   </Menu>
 )
 

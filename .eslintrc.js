@@ -59,7 +59,8 @@ module.exports = {
     "no-shadow": "off",
     "no-nested-ternary": "off",
     "import/prefer-default-export":"warn",
-    "no-param-reassign":"warn"
+    "no-param-reassign":"warn",
+    "react/button-has-type":"warn"
   },
   "settings": {
     "react": {

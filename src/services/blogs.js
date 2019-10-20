@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 const baseUrl = '/api/blogs'
 
 const getAll = async () => {
@@ -10,18 +11,18 @@ const createBlog = async ({
   title,
   url,
   author,
-  token
+  token,
 }) => {
   const data = {
     title,
     url,
-    author
+    author,
   }
 
   const config = {
     headers: {
-      Authorization: `bearer ${token}`
-    }
+      Authorization: `bearer ${token}`,
+    },
   }
 
   const response = await axios.post(baseUrl, data, config)
@@ -34,31 +35,31 @@ const updateBlog = async ({
   author,
   title,
   url,
-  id
+  id,
 }) => {
   const data = {
     user,
     likes,
     author,
     title,
-    url
+    url,
   }
   const response = await axios.put(`${baseUrl}/${id}`, data)
   return response.data
 }
 
-const addComment = async({ comment, id }) => {
+const addComment = async ({ comment, id }) => {
   const response = await axios.post(`${baseUrl}/${id}/comments`, comment)
   return response.data
 }
 
-const deleteBlog = async({ id, token }) => {
+const deleteBlog = async ({ id, token }) => {
   const config = {
     headers: {
-      Authorization: `bearer ${token}`
-    }
+      Authorization: `bearer ${token}`,
+    },
   }
-  const response = await axios.delete(`${baseUrl}/${id}`,config)
+  const response = await axios.delete(`${baseUrl}/${id}`, config)
   return response.data
 }
 
@@ -67,5 +68,5 @@ export default {
   createBlog,
   updateBlog,
   deleteBlog,
-  addComment
+  addComment,
 }

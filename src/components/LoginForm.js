@@ -30,13 +30,13 @@ const LoginFormComponent = ({ addToken, setNotification }) => {
       <Form.Field>
         <div>
       username
-          <input name="username" />
+          <input data-cy="username_login" name="username" />
         </div>
       </Form.Field>
       <Form.Field>
         <div>
       password
-          <input name="password" type="password" />
+          <input data-cy="password_login" name="password" type="password" />
         </div>
       </Form.Field>
       <Button type="submit">login</Button>

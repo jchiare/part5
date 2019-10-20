@@ -9,53 +9,51 @@ test('Likes renders fine', () => {
   const blog = {
     title: 'The blog title',
     author: 'Frank Smith',
-    likes: 4
+    likes: 4,
   }
 
   const component = render(
-    <SimpleBlog blog={blog} />
+    <SimpleBlog blog={blog} />,
   )
 
   const likes = component.container.querySelector('.likes')
   expect(likes).toHaveTextContent(
-    '4'
+    '4',
   )
-
 })
 
 test('Text renders ', () => {
   const blog = {
     title: 'The blog title',
     author: 'Frank Smith',
-    likes: 4
+    likes: 4,
   }
 
   const component = render(
-    <SimpleBlog blog={blog} />
+    <SimpleBlog blog={blog} />,
   )
 
   const text = component.container.querySelector('.text')
   expect(text).toHaveTextContent(
-    'The blog title'
+    'The blog title',
   )
 
   expect(text).toHaveTextContent(
-    'Frank Smith'
+    'Frank Smith',
   )
-
 })
 
 test('Likes number increments', () => {
   const blog = {
     title: 'The blog title',
     author: 'Frank Smith',
-    likes: 4
+    likes: 4,
   }
 
   const mockHandler = jest.fn()
 
   const component = render(
-    <SimpleBlog blog={blog} onClick={mockHandler} />
+    <SimpleBlog blog={blog} onClick={mockHandler} />,
   )
 
   const button = component.getByText('like')
@@ -63,5 +61,4 @@ test('Likes number increments', () => {
   fireEvent.click(button)
 
   expect(mockHandler.mock.calls.length).toBe(2)
-
 })

@@ -3,10 +3,16 @@ import React from 'react'
 const SimpleBlog = ({ blog, onClick }) => (
   <div>
     <div className="text">
-      {blog.title} {blog.author}
+      {blog.title}
+      {' '}
+      {blog.author}
     </div>
     <div className="likes">
-      blog has {blog.likes} likes
+      blog has
+      {' '}
+      {blog.likes}
+      {' '}
+likes
       <button onClick={onClick}>like</button>
     </div>
   </div>

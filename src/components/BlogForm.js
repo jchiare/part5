@@ -35,10 +35,11 @@ const BlogFormComponent = ({
     <div>
       <h3>Create New Blog</h3>
       <Form onSubmit={onBlogSubmitted}>
-        <Form.Field>
+        <Form.Field >
           <div>
           Title:
             <Input
+              data-cy="blog_title"
               name="title"
             />
           </div>
@@ -47,6 +48,7 @@ const BlogFormComponent = ({
           <div>
           Author:
             <Input
+              data-cy="blog_author"
               name="author"
             />
           </div>
@@ -55,11 +57,12 @@ const BlogFormComponent = ({
           <div>
           URL:
             <Input
+              data-cy="blog_url"
               name="url"
             />
           </div>
         </Form.Field>
-        <Button primary type="submit">Create blog</Button>
+        <Button data-cy="submit_new_blog" primary type="submit">Create blog</Button>
       </Form>
     </div>
   )

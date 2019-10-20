@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 const baseUrl = '/api/users'
 
 const getAllUsers = async () => {
@@ -7,4 +8,3 @@ const getAllUsers = async () => {
 }
 
 export { getAllUsers }
-

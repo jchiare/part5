@@ -4,28 +4,29 @@ import { connect } from 'react-redux'
 import { removeToken } from '../reducers/tokenReducer'
 
 const UserAuth = ({ user, removeToken }) => {
-
   const handleLogout = () => {
     removeToken()
   }
 
-  if (!user){
+  if (!user) {
     return null
   }
 
   return (
     <div>
-      {user} logged in
+      {user}
+      {' '}
+logged in
       <button onClick={handleLogout}>logout</button>
     </div>
   )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const user = state.token && state.token.username
   return {
-    user
+    user,
   }
 }
 
-export default connect(mapStateToProps,{ removeToken })(UserAuth)
+export default connect(mapStateToProps, { removeToken })(UserAuth)
